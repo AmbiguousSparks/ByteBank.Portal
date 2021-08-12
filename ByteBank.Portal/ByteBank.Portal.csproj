@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\css\style.css" />
+    <None Remove="Assets\js\main.js" />
+    <None Remove="View\Cards\Credit.html" />
+    <None Remove="View\Cards\Debit.html" />
+    <None Remove="View\Exchange\MXN.html" />
+    <None Remove="View\Exchange\USD.html" />
+    <None Remove="View\Home\Index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\css\style.css" />
+    <EmbeddedResource Include="Assets\js\main.js" />
+    <EmbeddedResource Include="View\Cards\Credit.html" />
+    <EmbeddedResource Include="View\Cards\Debit.html" />
+    <EmbeddedResource Include="View\Exchange\MXN.html" />
+    <EmbeddedResource Include="View\Exchange\USD.html" />
+    <EmbeddedResource Include="View\Home\Index.html" />
+  </ItemGroup>
+
+</Project>
