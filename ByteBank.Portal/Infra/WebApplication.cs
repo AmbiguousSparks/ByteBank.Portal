@@ -1,9 +1,9 @@
-﻿using ByteBank.Portal.Infra.Utils;
+﻿using ByteBank.Portal.Infra.Handlers;
+using ByteBank.Portal.Infra.Handlers.Interfaces;
+using ByteBank.Portal.Infra.Utils;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Net;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ByteBank.Portal.Infra
@@ -11,9 +11,13 @@ namespace ByteBank.Portal.Infra
     internal class WebApplication
     {
         private readonly string[] _prefixes;
+        private readonly IRequestHandler _fileRequestHandler;
+        private readonly IRequestHandler _actionRequestHandler;
         public WebApplication(string[] prefixes)
         {
             _prefixes = prefixes ?? throw new ArgumentNullException(nameof(prefixes));
+            _fileRequestHandler = new FileRequestHandler();
+            _actionRequestHandler = new ActionRequestHandler();
         }
         public async Task StartAsync()
         {
@@ -23,60 +27,46 @@ namespace ByteBank.Portal.Infra
 
         private async Task HandleRequestAsync()
         {
-            var listener = new HttpListener();
-
-            foreach (var prefix in _prefixes)
-                listener.Prefixes.Add(prefix);
+            var listener = GetHttpListener();
 
             listener.Start();
 
             var context = await listener.GetContextAsync();
 
             var request = context.Request;
+
             var response = context.Response;
-
-            var path = request.Url.AbsolutePath;
-
-            var resourceName = Util.ConvertPathToResourceName(path);
 
             try
             {
-                var contentType = Util.GetContentType(path);
+                var path = request.Url.AbsolutePath;
 
-                var assembly = Assembly.GetExecutingAssembly();
-                Stream stream = assembly.GetManifestResourceStream(resourceName);
-
-                if (stream == null)
+                if (Util.IsFile(path))
                 {
-                    NotFound(response);
-                    listener.Stop();
+                    await _fileRequestHandler.Handle(response, path);
+
                     return;
                 }
-
-                byte[] bytes = new byte[stream.Length];
-
-                stream.Read(bytes, 0, bytes.Length);
-
-                response.ContentType = $"{contentType}; charset=utf-8";
-                response.StatusCode = 200;
-                response.ContentLength64 = stream.Length;
-
-                response.OutputStream.Write(bytes, 0, bytes.Length);
-
-                response.OutputStream.Close();
+                await _actionRequestHandler.Handle(response, path);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
-
-            listener.Stop();
+            finally
+            {
+                listener.Stop();
+            }
         }
 
-        private void NotFound(HttpListenerResponse response)
+        #region Privates
+        private HttpListener GetHttpListener()
         {
-            response.StatusCode = 404;
-            response.OutputStream.Close();
+            var listener = new HttpListener();
+            foreach (var prefix in _prefixes)
+                listener.Prefixes.Add(prefix);
+            return listener;
         }
+        #endregion
     }
 }

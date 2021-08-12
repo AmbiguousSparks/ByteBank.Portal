@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ByteBank.Services.Services.Intefaces
+namespace ByteBank.Services.Intefaces
 {
     public interface IExchangeService
     {
