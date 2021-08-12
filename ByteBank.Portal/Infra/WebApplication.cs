@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace ByteBank.Portal.Infra
 {
@@ -14,13 +15,13 @@ namespace ByteBank.Portal.Infra
         {
             _prefixes = prefixes ?? throw new ArgumentNullException(nameof(prefixes));
         }
-        public void StartAsync()
+        public async Task StartAsync()
         {
             while (true)
-                HandleRequest();
+                await HandleRequestAsync();
         }
 
-        private void HandleRequest()
+        private async Task HandleRequestAsync()
         {
             var listener = new HttpListener();
 
@@ -29,7 +30,7 @@ namespace ByteBank.Portal.Infra
 
             listener.Start();
 
-            var context = listener.GetContextAsync().Result;
+            var context = await listener.GetContextAsync();
 
             var request = context.Request;
             var response = context.Response;
@@ -44,6 +45,13 @@ namespace ByteBank.Portal.Infra
 
                 var assembly = Assembly.GetExecutingAssembly();
                 Stream stream = assembly.GetManifestResourceStream(resourceName);
+
+                if (stream == null)
+                {
+                    NotFound(response);
+                    listener.Stop();
+                    return;
+                }
 
                 byte[] bytes = new byte[stream.Length];
 
@@ -63,6 +71,12 @@ namespace ByteBank.Portal.Infra
             }
 
             listener.Stop();
+        }
+
+        private void NotFound(HttpListenerResponse response)
+        {
+            response.StatusCode = 404;
+            response.OutputStream.Close();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ByteBank.Portal.Infra;
+using System;
 
 namespace ByteBank.Portal
 {
@@ -7,9 +8,9 @@ namespace ByteBank.Portal
         static void Main(string[] args)
         {
             var prefixes = new string[] { "http://localhost:4452/" };
-            System.Console.WriteLine("Server started");
-            new WebApplication(prefixes).StartAsync();
-            System.Console.WriteLine("Server stopped");
+            Console.WriteLine("Server started");
+            new WebApplication(prefixes).StartAsync().Wait();
+            Console.WriteLine("Server stopped");
         }
     }
 }
