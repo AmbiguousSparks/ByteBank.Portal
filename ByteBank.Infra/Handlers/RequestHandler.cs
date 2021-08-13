@@ -6,12 +6,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using System;
 using System.Text;
+using System.Collections.Specialized;
 
 namespace ByteBank.Infra.Handlers
 {
     public abstract class RequestHandler : IRequestHandler
     {
-        public abstract Task Handle(HttpListenerResponse response, string path, CancellationToken cancellationToken = default);
+        public abstract Task Handle(HttpListenerResponse response,
+                                    string path,
+                                    NameValueCollection queryString = null,
+                                    CancellationToken cancellationToken = default);
 
         #region Support Methods
         protected static Stream GetResourceStream(string resourceName)

@@ -29,5 +29,23 @@ namespace ByteBank.Portal.Controllers
             var finalValue = pageText.Replace("{reais}", value.ToString());
             return finalValue.ToString();
         }
+
+        public async Task<string> Calculate(string sourceCurrency, string destCurrency, decimal value)
+        {
+            var finalValue = await _exchangeService.Calculate(sourceCurrency, destCurrency, value);
+            //{value}{sourceCurrency}= {destCurrency}{finalValue}
+            var pageText = await View();
+            var page = 
+                pageText
+                .Replace("{finalValue}", finalValue.ToString())
+                .Replace("{destCurrency}", destCurrency)
+                .Replace("{sourceCurrency}", sourceCurrency)
+                .Replace("{value}", value.ToString());
+
+            return page;
+        }
+
+        public async Task<string> Calculate(string sourceCurrency, decimal value) =>
+            await Calculate(sourceCurrency, "BRL", value);
     }
 }

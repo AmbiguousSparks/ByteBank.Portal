@@ -1,4 +1,5 @@
 ﻿using ByteBank.Infra.Utils;
+using System.Collections.Specialized;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,7 +8,10 @@ namespace ByteBank.Infra.Handlers
 {
     public class FileRequestHandler : RequestHandler
     {
-        public override async Task Handle(HttpListenerResponse response, string path, CancellationToken cancellationToken = default)
+        public override async Task Handle(HttpListenerResponse response,
+                                          string path,
+                                          NameValueCollection queryString = null,
+                                          CancellationToken cancellationToken = default)
         {
             var contentType = Util.GetContentType(path);
 
