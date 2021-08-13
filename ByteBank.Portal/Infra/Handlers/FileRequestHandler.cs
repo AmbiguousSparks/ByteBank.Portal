@@ -22,9 +22,7 @@ namespace ByteBank.Portal.Infra.Handlers
                     return;
                 }
 
-                byte[] bytes = GetBytesFromStream(stream);
-
-                await WriteResponse(response, contentType, bytes);
+                await WriteResponse(response, contentType, stream);
 
                 stream.Close();
             }

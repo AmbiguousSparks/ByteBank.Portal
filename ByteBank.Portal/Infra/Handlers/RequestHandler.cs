@@ -12,6 +12,7 @@ namespace ByteBank.Portal.Infra.Handlers
     {
         public abstract Task Handle(HttpListenerResponse response, string path, CancellationToken cancellationToken = default);
 
+        #region Support Methods
         protected static Stream GetResourceStream(string resourceName)
         {
             var assembly = Assembly.GetExecutingAssembly();
@@ -40,11 +41,21 @@ namespace ByteBank.Portal.Infra.Handlers
             }
         }
 
+        protected static async Task WriteResponse(HttpListenerResponse response, string contentType, Stream stream)
+        {
+            using (stream)
+            {
+                byte[] bytes = GetBytesFromStream(stream);
+                await WriteResponse(response, contentType, bytes);
+            }
+        }
+
         protected static void NotFound(HttpListenerResponse response)
         {
             response.StatusCode = 404;
             response.OutputStream.Close();
-        }
+        } 
+        #endregion
 
     }
 }
