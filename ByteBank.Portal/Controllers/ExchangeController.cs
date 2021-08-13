@@ -16,7 +16,7 @@ namespace ByteBank.Portal.Controllers
 
         public async Task<string> MXN()
         {
-            var pageText = await View();//
+            var pageText = await View();
             var value = await _exchangeService.Calculate("MXN", "BRL", 1);
             var finalValue = pageText.Replace("{reais}", value.ToString());
             return finalValue.ToString();
@@ -24,7 +24,7 @@ namespace ByteBank.Portal.Controllers
 
         public async Task<string> USD()
         {
-            var pageText = await View();//_exchangeService.Calculate("USD", "BRL", 1);
+            var pageText = await View();
             var value = await _exchangeService.Calculate("MXN", "BRL", 1);
             var finalValue = pageText.Replace("{reais}", value.ToString());
             return finalValue.ToString();
@@ -33,7 +33,6 @@ namespace ByteBank.Portal.Controllers
         public async Task<string> Calculate(string sourceCurrency, string destCurrency, decimal value)
         {
             var finalValue = await _exchangeService.Calculate(sourceCurrency, destCurrency, value);
-            //{value}{sourceCurrency}= {destCurrency}{finalValue}
             var pageText = await View();
             var page = 
                 pageText

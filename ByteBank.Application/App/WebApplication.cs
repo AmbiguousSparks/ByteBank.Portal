@@ -26,6 +26,10 @@ namespace ByteBank.Application.App
         }
         #endregion
 
+        /// <summary>
+        /// Start handling the request
+        /// </summary>
+        /// <returns></returns>
         public async Task StartAsync()
         {
             while (true)
@@ -39,7 +43,7 @@ namespace ByteBank.Application.App
             foreach (var prefix in _prefixes)
                 listener.Prefixes.Add(prefix);
             return listener;
-        }        
+        }
 
         private async Task HandleRequestAsync()
         {
@@ -51,8 +55,8 @@ namespace ByteBank.Application.App
 
             var request = context.Request;
 
-            var response = context.Response;         
-            
+            var response = context.Response;
+
             try
             {
                 var path = request.Url.AbsolutePath;
