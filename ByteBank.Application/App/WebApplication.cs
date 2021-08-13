@@ -51,8 +51,8 @@ namespace ByteBank.Application.App
 
             var request = context.Request;
 
-            var response = context.Response;
-
+            var response = context.Response;         
+            
             try
             {
                 var path = request.Url.AbsolutePath;
@@ -63,7 +63,7 @@ namespace ByteBank.Application.App
 
                     return;
                 }
-                await _actionRequestHandler.Handle(response, path);
+                await _actionRequestHandler.Handle(response, path, request.QueryString);
             }
             catch (Exception e)
             {
