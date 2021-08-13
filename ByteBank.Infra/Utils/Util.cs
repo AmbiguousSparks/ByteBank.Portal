@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Reflection;
 
-namespace ByteBank.Portal.Infra.Utils
+namespace ByteBank.Infra.Utils
 {
-    internal static class Util
+    public static class Util
     {
         public static bool IsFile(string path)
         {

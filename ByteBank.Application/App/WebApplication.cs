@@ -1,14 +1,14 @@
-﻿using ByteBank.Portal.Infra.Handlers;
-using ByteBank.Portal.Infra.Handlers.Interfaces;
-using ByteBank.Portal.Infra.Utils;
+﻿using ByteBank.Infra.Handlers;
+using ByteBank.Infra.Handlers.Interfaces;
+using ByteBank.Infra.Utils;
 using System;
 using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace ByteBank.Portal.Infra
+namespace ByteBank.Application.App
 {
-    internal class WebApplication
+    public class WebApplication
     {
         #region Fields
         private readonly string[] _prefixes;

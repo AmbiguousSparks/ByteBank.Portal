@@ -1,4 +1,4 @@
-﻿using ByteBank.Portal.Infra;
+﻿using ByteBank.Application.App;
 using System;
 
 namespace ByteBank.Portal
