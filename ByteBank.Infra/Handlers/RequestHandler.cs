@@ -1,12 +1,13 @@
-﻿using ByteBank.Portal.Infra.Handlers.Interfaces;
+﻿using ByteBank.Infra.Handlers.Interfaces;
 using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
+using System.Text;
 
-namespace ByteBank.Portal.Infra.Handlers
+namespace ByteBank.Infra.Handlers
 {
     public abstract class RequestHandler : IRequestHandler
     {
@@ -27,8 +28,21 @@ namespace ByteBank.Portal.Infra.Handlers
             return bytes;
         }
 
+        protected static async Task WriteResponse(HttpListenerResponse response, string contentType, string content)
+        {
+
+            byte[] contentBytes = Encoding.UTF8.GetBytes(content);
+
+            await WriteResponse(response, contentType, contentBytes);
+        }
+
         protected static async Task WriteResponse(HttpListenerResponse response, string contentType, byte[] content)
         {
+            if(content == null || content.Length == 0)
+            {
+                NotFound(response);
+                return;
+            }    
             using (response.OutputStream)
             {
                 response.ContentType = $"{contentType}; charset=utf-8";
