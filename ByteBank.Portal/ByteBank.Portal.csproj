@@ -25,4 +25,8 @@
     <EmbeddedResource Include="View\Home\Index.html" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ByteBank.Services\ByteBank.Services.csproj" />
+  </ItemGroup>
+
 </Project>

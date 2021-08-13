@@ -6,6 +6,11 @@ namespace ByteBank.Portal.Infra.Utils
 {
     internal static class Util
     {
+        public static bool IsFile(string path)
+        {
+            return path.Split('/', StringSplitOptions.RemoveEmptyEntries).Last().Contains(".");
+        }
+
         public static string ConvertPathToResourceName(string path)
         {
             var assemblyPrefix = Assembly.GetExecutingAssembly().GetName().Name;

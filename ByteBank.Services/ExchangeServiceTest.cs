@@ -1,8 +1,8 @@
-﻿using ByteBank.Services.Services.Intefaces;
+﻿using ByteBank.Services.Intefaces;
 using System;
 using System.Threading.Tasks;
 
-namespace ByteBank.Services.Services
+namespace ByteBank.Services
 {
     public class ExchangeServiceTest : IExchangeService
     {
