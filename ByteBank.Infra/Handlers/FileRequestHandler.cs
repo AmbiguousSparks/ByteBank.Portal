@@ -1,9 +1,9 @@
-﻿using ByteBank.Portal.Infra.Utils;
+﻿using ByteBank.Infra.Utils;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ByteBank.Portal.Infra.Handlers
+namespace ByteBank.Infra.Handlers
 {
     public class FileRequestHandler : RequestHandler
     {

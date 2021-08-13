@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ByteBank.Portal.Infra.Handlers.Interfaces
+namespace ByteBank.Infra.Handlers.Interfaces
 {
     public interface IRequestHandler
     {

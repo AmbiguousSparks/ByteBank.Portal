@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ByteBank.Application\ByteBank.Application.csproj" />
     <ProjectReference Include="..\ByteBank.Services\ByteBank.Services.csproj" />
   </ItemGroup>
 
